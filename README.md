@@ -2,7 +2,7 @@
 
 Красивый локальный конвертер MP4 и разрешённых к скачиванию видео YouTube в формат **GV1** для ESP32-S3 медиаплеера. Интерфейс публикуется на GitHub Pages, а FFmpeg, yt-dlp и передача на локальный ESP32 выполняются маленьким helper-сервисом на компьютере.
 
-**[Открыть GV1 Studio](https://iliasnovickov-cmd.github.io/gv1-studio/)** · **[Исходный код](https://github.com/iliasnovickov-cmd/gv1-studio)**
+**[Открыть GV1 Studio](https://iliasnovickov-cmd.github.io/gv1-studio/)** · **[Скачать v1.0.0](https://github.com/iliasnovickov-cmd/gv1-studio/releases/tag/v1.0.0)** · **[Исходный код](https://github.com/iliasnovickov-cmd/gv1-studio)**
 
 > Видео не загружается на сторонний сервер: обработка и промежуточные файлы остаются на вашем ПК.
 
