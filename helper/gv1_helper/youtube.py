@@ -10,7 +10,7 @@ import sys
 from typing import Callable
 
 from .config import Settings
-from .errors import JobCancelled, ValidationFailure
+from .errors import JobCancelled, ProcessFailure, ValidationFailure
 from .process import run_process
 
 DownloadProgress = Callable[[float, str], None]
@@ -63,8 +63,6 @@ async def download_youtube(
             "--no-write-auto-subs",
             "--match-filter",
             "!is_live & !was_live",
-            "--max-downloads",
-            "1",
             "--max-filesize",
             str(settings.max_input_bytes),
             "--socket-timeout",
@@ -88,12 +86,18 @@ async def download_youtube(
     if ffmpeg:
         command.extend(["--ffmpeg-location", ffmpeg])
     command.append(url)
-    await run_process(
-        command,
-        cancel,
-        cwd=download_dir,
-        line_handler=parse_line,
-    )
+    try:
+        await run_process(
+            command,
+            cancel,
+            cwd=download_dir,
+            line_handler=parse_line,
+        )
+    except ProcessFailure as exc:
+        # yt-dlp uses 101 for its download-limit sentinel.  If after_move
+        # already reported a complete file, conversion can safely continue.
+        if exc.returncode != 101 or not printed_path or not printed_path.is_file():
+            raise
     if cancel.is_set():
         raise JobCancelled("Job cancelled")
 

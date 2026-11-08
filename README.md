@@ -2,9 +2,13 @@
 
 Красивый локальный конвертер MP4 и разрешённых к скачиванию видео YouTube в формат **GV1** для ESP32-S3 медиаплеера. Интерфейс публикуется на GitHub Pages, а FFmpeg, yt-dlp и передача на локальный ESP32 выполняются маленьким helper-сервисом на компьютере.
 
-**[Открыть GV1 Studio](https://iliasnovickov-cmd.github.io/gv1-studio/)** · **[Скачать v1.0.0](https://github.com/iliasnovickov-cmd/gv1-studio/releases/tag/v1.0.0)** · **[Исходный код](https://github.com/iliasnovickov-cmd/gv1-studio)**
+**[Открыть GV1 Studio](https://iliasnovickov-cmd.github.io/gv1-studio/)** · **[Скачать v1.0.1](https://github.com/iliasnovickov-cmd/gv1-studio/releases/tag/v1.0.1)** · **[Исходный код](https://github.com/iliasnovickov-cmd/gv1-studio)**
 
 > Видео не загружается на сторонний сервер: обработка и промежуточные файлы остаются на вашем ПК.
+
+### Исправление v1.0.1
+
+Убран ложный сбой **python.exe exited with status 101** после успешного YouTube **after_move**. Опция **--max-downloads 1** больше не используется, а уже подтверждённый готовый файл безопасно принимается при служебном коде 101.
 
 ## Возможности
 
@@ -94,12 +98,12 @@ cd helper
 
 ## Проверено
 
-- 24 backend-теста;
+- 27 backend-тестов;
 - native FFmpeg integration: тестовый источник 1280×720 автоматически уменьшается до точных JPEG 320×180;
 - MP4 → 48 кадров → валидный двухсекундный GV1;
 - результат 540809 байт, CRC32 **1A1089E7**, SHA-256 **A85A9C888AC3DC58439CA6220234D1CD9A25268AF1D0E804561D1E49691538E4**;
 - GitHub Pages HTTP 200, CORS/PNA preflight и локальный fallback;
-- запуск интерфейса в Chrome и обнаружение helper 1.0.0;
+- запуск интерфейса в Chrome и обнаружение helper 1.0.1;
 - строгий ESP32 upload-emulator принял ровно 540809 байт с Content-Length, без chunked Transfer-Encoding, CRC32 1A1089E7 и валидным GV1;
 - Windows installer под Windows PowerShell 5.
 
