@@ -75,7 +75,8 @@ async def upload_to_player(
                 raise JobCancelled("Job cancelled")
             response = await request_task
         except httpx.HTTPError as exc:
-            raise ValidationFailure(f"ESP32 upload connection failed: {exc}") from exc
+            detail = str(exc).strip() or exc.__class__.__name__
+            raise ValidationFailure(f"ESP32 upload connection failed: {detail}") from exc
         finally:
             cancel_task.cancel()
             await asyncio.gather(cancel_task, return_exceptions=True)

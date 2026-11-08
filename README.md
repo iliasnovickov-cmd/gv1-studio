@@ -97,8 +97,9 @@ uv pip install --python .venv/Scripts/python.exe -r helper/requirements-dev.txt
 - native FFmpeg integration;
 - MP4 → 48 кадров → валидный двухсекундный GV1;
 - результат 540809 байт, CRC32 **1A1089E7**, SHA-256 **A85A9C888AC3DC58439CA6220234D1CD9A25268AF1D0E804561D1E49691538E4**;
-- GitHub Pages CORS и Chromium PNA preflight;
+- GitHub Pages HTTP 200, CORS/PNA preflight и локальный fallback;
 - запуск интерфейса в Chrome и обнаружение helper 1.0.0;
+- строгий ESP32 upload-emulator принял ровно 540809 байт с Content-Length, без chunked Transfer-Encoding, CRC32 1A1089E7 и валидным GV1;
 - Windows installer под Windows PowerShell 5.
 
 Реальный запрос к YouTube из среды разработки был заблокирован сетью (timeout/reset до youtube.com), поэтому yt-dlp покрыт модульными тестами, но доступность конкретного видео всегда зависит от сети пользователя.
