@@ -85,8 +85,9 @@ Helper принимает только literal private/link-local HTTP-адре�
 ~~~powershell
 py -3.11 -m venv .venv
 uv pip install --python .venv/Scripts/python.exe -r helper/requirements-dev.txt
-.venv/Scripts/python.exe -m pytest -q helper/tests
-.venv/Scripts/python.exe helper/run.py --port 8765
+cd helper
+../.venv/Scripts/python.exe -m pytest -q
+../.venv/Scripts/python.exe run.py --port 8765
 ~~~
 
 Статический frontend находится в **docs/** и не требует npm или сборки. GitHub Pages публикует эту папку напрямую из ветки main.
