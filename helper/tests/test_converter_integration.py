@@ -50,7 +50,7 @@ def test_native_ffmpeg_conversion_is_exact(tmp_path: Path) -> None:
             "-f",
             "lavfi",
             "-i",
-            "testsrc2=size=160x120:rate=30",
+            "testsrc2=size=1280x720:rate=30",
             "-f",
             "lavfi",
             "-i",

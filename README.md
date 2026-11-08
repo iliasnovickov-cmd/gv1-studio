@@ -95,7 +95,7 @@ cd helper
 ## Проверено
 
 - 24 backend-теста;
-- native FFmpeg integration;
+- native FFmpeg integration: тестовый источник 1280×720 автоматически уменьшается до точных JPEG 320×180;
 - MP4 → 48 кадров → валидный двухсекундный GV1;
 - результат 540809 байт, CRC32 **1A1089E7**, SHA-256 **A85A9C888AC3DC58439CA6220234D1CD9A25268AF1D0E804561D1E49691538E4**;
 - GitHub Pages HTTP 200, CORS/PNA preflight и локальный fallback;
