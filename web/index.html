@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#09090b">
+  <meta name="description" content="MP4 и YouTube в автономный формат GV1 для ESP32-S3">
+  <title>GV1 Studio — видео для ESP32</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="GV1 Studio">
+      <img src="logo.svg" alt=""><span>GV1 <b>Studio</b></span>
+    </a>
+    <div class="connection" id="connection" role="status">
+      <i></i><span>Проверяем helper…</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span></span> ESP32-S3 MEDIA PIPELINE</div>
+      <h1>Любое видео —<br><em>сразу на плеер.</em></h1>
+      <p>Автоматически уменьшаем разрешение, собираем индексированный GV1, проверяем CRC32 и отправляем на microSD по Wi‑Fi.</p>
+      <div class="hero-badges"><span>320×180</span><span>24 FPS</span><span>48 kHz Stereo</span><span>CRC32</span></div>
+    </section>
+
+    <section class="workspace">
+      <article class="card source-card">
+        <div class="card-head"><div><small>01 · ИСТОЧНИК</small><h2>Выберите видео</h2></div><span class="format-chip">→ .GV1</span></div>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="file" role="tab" aria-selected="true"><span>▣</span> Файл с компьютера</button>
+          <button class="tab" data-tab="youtube" role="tab" aria-selected="false"><span>▶</span> YouTube</button>
+        </div>
+
+        <section class="tab-panel active" id="panel-file" role="tabpanel">
+          <input id="file-input" type="file" accept="video/mp4,.mp4" hidden>
+          <button class="drop-zone" id="drop-zone" type="button">
+            <span class="drop-icon">＋</span>
+            <strong>Перетащите видео сюда</strong>
+            <small>или нажмите, чтобы выбрать MP4</small>
+            <span class="file-picked" id="file-picked"></span>
+          </button>
+        </section>
+
+        <section class="tab-panel" id="panel-youtube" role="tabpanel">
+          <label class="field-label" for="youtube-url">Ссылка YouTube</label>
+          <div class="url-field"><span>▶</span><input id="youtube-url" type="url" inputmode="url" placeholder="https://www.youtube.com/watch?v=…" autocomplete="off"></div>
+          <p class="legal">Скачивайте только собственные видео или материалы, на загрузку которых у вас есть разрешение.</p>
+          <label class="rights"><input id="rights-confirm" type="checkbox"><span>У меня есть право скачать и использовать это видео</span></label>
+        </section>
+
+        <div class="divider"></div>
+        <div class="options-grid">
+          <label><span>Имя результата</span><input id="output-name" maxlength="96" placeholder="Автоматически.gv1"></label>
+          <label><span>Адрес плеера</span><input id="player-url" value="http://192.168.1.54" inputmode="url"></label>
+        </div>
+        <label class="switch-row"><input id="auto-send" type="checkbox" checked><i></i><span><b>Сразу отправить на плеер</b><small>После CRC и проверки GV1</small></span></label>
+        <button class="primary" id="start-button" type="button"><span>Начать конвертацию</span><b>→</b></button>
+      </article>
+
+      <aside class="card process-card" id="process-card">
+        <div class="card-head"><div><small>02 · ПРОЦЕСС</small><h2>Готово к работе</h2></div><span class="percent" id="percent">0%</span></div>
+        <div class="preview" id="preview"><div class="preview-grid"></div><img src="logo.svg" alt=""><p>Здесь появится ход обработки</p></div>
+        <div class="progress"><i id="progress-bar"></i></div>
+        <p class="process-message" id="process-message">Выберите локальный файл или вставьте ссылку YouTube.</p>
+        <ol class="stages" id="stages">
+          <li data-stage="source"><i></i><span>Получение видео</span></li>
+          <li data-stage="convert"><i></i><span>Масштабирование и кодирование</span></li>
+          <li data-stage="verify"><i></i><span>Индекс, CRC32 и проверка</span></li>
+          <li data-stage="send"><i></i><span>Отправка на ESP32</span></li>
+        </ol>
+        <div class="result" id="result" hidden>
+          <dl><div><dt>Файл</dt><dd id="result-name">—</dd></div><div><dt>Размер</dt><dd id="result-size">—</dd></div><div><dt>CRC32</dt><dd id="result-crc">—</dd></div></dl>
+          <div class="result-actions"><a class="secondary" id="download-button" href="#">Скачать GV1</a><button class="secondary accent" id="send-button" type="button">Отправить</button></div>
+        </div>
+        <button class="cancel" id="cancel-button" type="button" hidden>Отменить задачу</button>
+      </aside>
+    </section>
+
+    <section class="setup card">
+      <div><small>ОДИН РАЗ НА КОМПЬЮТЕРЕ</small><h2>Локальный helper делает тяжёлую работу</h2><p>GitHub Pages остаётся интерфейсом, а FFmpeg и yt-dlp запускаются только на вашем ПК. Видео не отправляется в облако.</p></div>
+      <div class="setup-actions"><button class="secondary" id="retry-helper">Проверить helper</button><a class="secondary accent" href="https://github.com/" id="repo-link" target="_blank" rel="noopener">Инструкция установки</a></div>
+    </section>
+  </main>
+
+  <footer><span>GV1 Studio · local-first</span><span>Видео остаётся на вашем компьютере</span></footer>
+  <div class="toast" id="toast" role="alert"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
