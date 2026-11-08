@@ -87,7 +87,7 @@ uv pip install --python .venv/Scripts/python.exe -r helper/requirements-dev.txt
 .venv/Scripts/python.exe helper/run.py --port 8765
 ~~~
 
-Статический frontend находится в **web/** и не требует npm или сборки. Workflow **.github/workflows/pages.yml** публикует эту папку в GitHub Pages при push в main.
+Статический frontend находится в **docs/** и не требует npm или сборки. GitHub Pages публикует эту папку напрямую из ветки main.
 
 ## Проверено
 

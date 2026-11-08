@@ -57,7 +57,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     )
     application.add_middleware(BrowserAccessMiddleware, explicit_origins=config.allowed_origins)
 
-    web_dir = Path(__file__).resolve().parents[2] / "web"
+    web_dir = Path(__file__).resolve().parents[2] / "docs"
 
     @application.get("/", include_in_schema=False)
     async def root():
